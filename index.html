@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Muniza!</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #feada6 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #333;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 24px;
+      padding: 30px;
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      position: relative;
+    }
+    h1 { font-family: 'Fredoka', sans-serif; color: #ff4757; margin-bottom: 10px; }
+    .timer-grid {
+      display: flex; justify-content: space-around; margin: 20px 0;
+    }
+    .time-box {
+      background: #ffeaa7; padding: 10px 15px; border-radius: 12px; font-weight: bold;
+    }
+    input {
+      width: 80%; padding: 12px; border: 2px solid #ff7675; border-radius: 10px; outline: none; text-align: center; font-size: 1rem;
+    }
+    button {
+      background: #ff4757; color: white; border: none; padding: 12px 24px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 15px; transition: 0.2s;
+    }
+    button:hover { background: #ff6b81; transform: scale(1.03); }
+    .msg { margin-top: 15px; font-weight: bold; color: #d63031; }
+    .fact-card {
+      background: #fff0f3; border: 2px dashed #ff7675; padding: 12px; border-radius: 12px; margin: 10px 0; font-size: 0.95rem; text-align: left;
+    }
+    .wish-text {
+      font-size: 1.1rem; line-height: 1.6; margin: 20px 0; color: #444;
+    }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <!-- 1. Countdown Section -->
+    <div id="countdown-sec">
+      <h1>🎂 Birthday Countdown!</h1>
+      <div class="timer-grid">
+        <div class="time-box"><span id="days">0</span>d</div>
+        <div class="time-box"><span id="hours">0</span>h</div>
+        <div class="time-box"><span id="mins">0</span>m</div>
+        <div class="time-box"><span id="secs">0</span>s</div>
+      </div>
+      <button id="skip-btn" onclick="showWishSection()">Skip Timer (Demo Preview)</button>
+    </div>
+
+    <!-- 2. Birthday Wish Screen (Appears right after timer) -->
+    <div id="wish-sec" class="hidden">
+      <h1>🎉 Happy Birthday! 🎉</h1>
+      <p class="wish-text">
+        Happy birthday my dear bestie and czn! 😊<br>
+        May your day be as happy as this! Enjoy the day to the fullest! 🎈✨
+      </p>
+      <button onclick="showPasswordSection()">Next ➡️</button>
+    </div>
+
+    <!-- 3. Password Gate -->
+    <div id="password-sec" class="hidden">
+      <h1>🔒 Secret Gate</h1>
+      <p style="margin: 15px 0;">Enter the secret password to see your fun facts:</p>
+      <input type="text" id="passInput" placeholder="Enter password...">
+      <br>
+      <button onclick="checkPassword()">Submit</button>
+      <div id="feedback" class="msg"></div>
+    </div>
+
+    <!-- 4. Fun Facts Section -->
+    <div id="facts-sec" class="hidden">
+      <h1>Yayyy😊 Finally, you've learned how to respect your elders.😛</h1>
+      <h2 style="color: #ff6b81; margin: 15px 0;">Fun Facts About Muniza 🎈</h2>
+      
+      <div class="fact-card">🚩 <b>Fact 1:</b> Your red flag is that you are rude to others and friendly with your loved ones.</div>
+      <div class="fact-card">📏 <b>Fact 2:</b> No matter how much taller you grow, you are still younger than me.</div>
+      <div class="fact-card">🌶️ <b>Fact 3:</b> You like spicy food, but after making it, you can't eat it.</div>
+      <div class="fact-card">🧸 <b>Fact 4:</b> U r such a childish sometimes.</div>
+      <div class="fact-card">✨ <b>Fact 5:</b> U r chaotic and fun to be around 😊.</div>
+    </div>
+  </div>
+
+  <script>
+    // Target Date: Nov 3, 2026 00:00:00 (Tonight at 12:00 AM)
+    const targetDate = new Date("Nov 3, 2026 00:00:00").getTime();
+
+    const timer = setInterval(() => {
+      const now = new Date().getTime();
+      const diff = targetDate - now;
+
+      if (diff <= 0) {
+        clearInterval(timer);
+        showWishSection();
+      } else {
+        document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+        document.getElementById('hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        document.getElementById('mins').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        document.getElementById('secs').innerText = Math.floor((diff % (1000 * 60)) / 1000);
+      }
+    }, 1000);
+
+    // Step 1 -> Step 2
+    function showWishSection() {
+      document.getElementById('countdown-sec').classList.add('hidden');
+      document.getElementById('wish-sec').classList.remove('hidden');
+      confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
+    }
+
+    // Step 2 -> Step 3
+    function showPasswordSection() {
+      document.getElementById('wish-sec').classList.add('hidden');
+      document.getElementById('password-sec').classList.remove('hidden');
+    }
+
+    // Step 3 -> Step 4
+    let attempts = 0;
+    function checkPassword() {
+      const val = document.getElementById('passInput').value.trim().toLowerCase();
+      const feedback = document.getElementById('feedback');
+      attempts++;
+
+      if (val === "i respect bisma") {
+        document.getElementById('password-sec').classList.add('hidden');
+        document.getElementById('facts-sec').classList.remove('hidden');
+        confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+      } else {
+        if (attempts === 1) {
+          feedback.innerText = "think again dear czn";
+        } else if (attempts === 2) {
+          feedback.innerText = "I'm disappointed. Hint: I'm older than u so what ppl do with older? Guess it";
+        } else {
+          feedback.innerText = "Hint: The answer is 'I respect bisma'";
+        }
+      }
+    }
+  </script>
+</body>
+</html>
